@@ -28,8 +28,8 @@ class ResidentController {
   void makeAppointment(@RequestBody ResidentProfile command) {
 	
     long id = service.insertResidentProfile(command);
-    System.out.println(command.toString());
-    service.insertVaccine(id, command);
+    //System.out.println(command.toString());
+    //service.insertVaccine(id, command);
   }
 
   //課堂上做

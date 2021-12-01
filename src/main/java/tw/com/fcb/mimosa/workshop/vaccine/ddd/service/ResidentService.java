@@ -28,7 +28,10 @@ public class ResidentService {
   }
 
   public long insertResidentProfile(ResidentProfile command) {
-    return repository.save(mapper.toEntity(command)).getId();
+      var data = mapper.toEntity(command);
+      data.setChooseEntity(
+      		command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList()));
+	  return repository.save(data).getId();
   }
 
   public void insertVaccine(long id, ResidentProfile command) {
