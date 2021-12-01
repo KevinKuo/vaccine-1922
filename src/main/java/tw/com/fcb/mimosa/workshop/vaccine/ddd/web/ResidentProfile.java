@@ -12,7 +12,7 @@ import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 @AllArgsConstructor
 @Data
 @Builder
-public class Appointment {
+public class ResidentProfile {
   String nhiNo;
   String phoneNo;
 

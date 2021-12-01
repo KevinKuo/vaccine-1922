@@ -1,17 +1,19 @@
 package tw.com.fcb.mimosa.workshop.vaccine.ddd.service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.repository.ChooseEntity;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.repository.ResidentRepository;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.Appointment;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.CancelVaccine;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ChooseVaccine;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ReplaceResidentProfile;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ResidentMapper;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ResidentProfile;
 
 @Service
 @Transactional
@@ -21,19 +23,18 @@ public class ResidentService {
   final ResidentRepository repository;
   final ResidentMapper mapper;
 
-  public Appointment getAppointment(long id) {
-    var db = repository.findById(id).orElseThrow();
-    return mapper.toDto(db);
+  public List<ResidentProfile> getResidents() {
+    return repository.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
   }
 
-  public long insertResidentProfile(Appointment command) {
+  public long insertResidentProfile(ResidentProfile command) {
     return repository.save(mapper.toEntity(command)).getId();
   }
 
-  public void insertVaccine(long id, Appointment command) {
+  public void insertVaccine(long id, ResidentProfile command) {
     var db = repository.findById(id).orElseThrow();
     var choose = command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList());
-    db.getChooseEntity().addAll(choose);
+    db.setChooseEntity(choose);
     repository.save(db);
   }
 
@@ -46,7 +47,12 @@ public class ResidentService {
 
   public void chooseVaccine(long id, ChooseVaccine command) {
     var db = repository.findById(id).orElseThrow();
-    var append = command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList());
+    //var append = command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList());
+    var append = command.getVaccines().stream().filter(choose -> {
+        return db.getChooseEntity().stream().map(ChooseEntity::getVaccine).noneMatch(command.getVaccines()::equals);
+      }).map(mapper::toChoose)
+          .collect(Collectors.toList());
+    
     db.getChooseEntity().addAll(append);
     repository.save(db);
   }

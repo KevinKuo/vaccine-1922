@@ -1,10 +1,13 @@
 package tw.com.fcb.mimosa.workshop.vaccine.ddd.web;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,32 +25,34 @@ class ResidentController {
   final ResidentService service;
 
   @PostMapping
-  void makeAppointment(Appointment command) {
+  void makeAppointment(@RequestBody ResidentProfile command) {
+	
     long id = service.insertResidentProfile(command);
+    System.out.println(command.toString());
     service.insertVaccine(id, command);
   }
 
   //課堂上做
 
   @PutMapping("/{id}")
-  void replaceResidentProfile(@PathVariable("id") long id, ReplaceResidentProfile command) {
+  void replaceResidentProfile(@PathVariable("id") long id, @RequestBody ReplaceResidentProfile command) {
     service.replaceResidentProfile(id, command);
   }
 
   @PutMapping("/{id}/vaccines")
-  void chooseVaccine(@PathVariable("id") long id, ChooseVaccine command) {
+  void chooseVaccine(@PathVariable("id") long id, @RequestBody ChooseVaccine command) {
     service.chooseVaccine(id, command);
   }
 
   @DeleteMapping("/{id}/vaccines")
-  void cancelVaccine(@PathVariable("id") long id, CancelVaccine command) {
+  void cancelVaccine(@PathVariable("id") long id, @RequestBody CancelVaccine command) {
     service.cancelVaccine(id, command);
   }
 
   //
 
-  @GetMapping("/{id}")
-  void getAppointment(@PathVariable("id") long id) {
-    service.getAppointment(id);
+  @GetMapping
+  List<ResidentProfile> getResidents() {
+    return service.getResidents();
   }
 }
