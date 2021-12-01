@@ -12,10 +12,12 @@ import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 @Mapper
 public interface ResidentMapper {
 
-  ResidentEntity toEntity(MakeAppointment dto);
+  ResidentEntity toEntity(Appointment dto);
 
   ResidentEntity toEntity(ReplaceResidentProfile dto);
-  
+
+  Appointment toDto(ResidentEntity db);
+
   default ChooseEntity toChoose(Vaccine vaccine) {
     var entity = new ChooseEntity();
     entity.setChooseTime(LocalDateTime.now());

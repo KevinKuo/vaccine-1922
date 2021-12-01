@@ -7,9 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.repository.ResidentRepository;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.Appointment;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.CancelVaccine;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ChooseVaccine;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.MakeAppointment;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ReplaceResidentProfile;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ResidentMapper;
 
@@ -18,46 +18,51 @@ import tw.com.fcb.mimosa.workshop.vaccine.ddd.web.ResidentMapper;
 @RequiredArgsConstructor
 public class ResidentService {
 
-	final ResidentRepository repository;
-	final ResidentMapper mapper;
+  final ResidentRepository repository;
+  final ResidentMapper mapper;
 
-	public long insertResidentProfile(MakeAppointment command) {
-		return repository.save(mapper.toEntity(command)).getId();
-	}
+  public Appointment getAppointment(long id) {
+    var db = repository.findById(id).orElseThrow();
+    return mapper.toDto(db);
+  }
 
-	public void insertVaccine(long id, MakeAppointment command) {
-		var db = repository.findById(id).orElseThrow();
-		var choose = command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList());
-	    db.getChooseEntity().addAll(choose);
-	    repository.save(db);
-	  }
+  public long insertResidentProfile(Appointment command) {
+    return repository.save(mapper.toEntity(command)).getId();
+  }
 
-	public void replaceResidentProfile(long id, ReplaceResidentProfile command) {
-		var db = repository.findById(id).orElseThrow();
-		db.setPhoneNo(command.getPhoneNo());
+  public void insertVaccine(long id, Appointment command) {
+    var db = repository.findById(id).orElseThrow();
+    var choose = command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList());
+    db.getChooseEntity().addAll(choose);
+    repository.save(db);
+  }
 
-		repository.save(db);
-	}
+  public void replaceResidentProfile(long id, ReplaceResidentProfile command) {
+    var db = repository.findById(id).orElseThrow();
+    db.setPhoneNo(command.getPhoneNo());
 
-	public void chooseVaccine(long id, ChooseVaccine command) {
-		var db = repository.findById(id).orElseThrow();
-		var append = command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList());
-		db.getChooseEntity().addAll(append);
-		repository.save(db);
-	}
+    repository.save(db);
+  }
 
-	public void cancelVaccine(long id, CancelVaccine command) {
-		var db = repository.findById(id).orElseThrow();
-		var drop = db.getChooseEntity().stream()
-				.filter(dbChoose -> command.getVaccines().contains(dbChoose.getVaccine())).collect(Collectors.toList());
-		db.getChooseEntity().removeAll(drop);
+  public void chooseVaccine(long id, ChooseVaccine command) {
+    var db = repository.findById(id).orElseThrow();
+    var append = command.getVaccines().stream().map(mapper::toChoose).collect(Collectors.toList());
+    db.getChooseEntity().addAll(append);
+    repository.save(db);
+  }
 
-		// stream 代表轉成collection物件
-		// map 把資料的某個型態 轉成另一個型態
-		// filter 用迴圈檢查每個物件是否符合你要的條件
-		var cancel = command.getVaccines().stream().map(mapper::toCancel).collect(Collectors.toList());
-		db.getCancelEntity().addAll(cancel);
+  public void cancelVaccine(long id, CancelVaccine command) {
+    var db = repository.findById(id).orElseThrow();
+    var drop = db.getChooseEntity().stream()
+        .filter(dbChoose -> command.getVaccines().contains(dbChoose.getVaccine())).collect(Collectors.toList());
+    db.getChooseEntity().removeAll(drop);
 
-		repository.save(db);
-	}
+    // stream 代表轉成collection物件
+    // map 把資料的某個型態 轉成另一個型態
+    // filter 用迴圈檢查每個物件是否符合你要的條件
+    var cancel = command.getVaccines().stream().map(mapper::toCancel).collect(Collectors.toList());
+    db.getCancelEntity().addAll(cancel);
+
+    repository.save(db);
+  }
 }

@@ -22,9 +22,9 @@ class ResidentController {
   final ResidentService service;
 
   @PostMapping
-  void makeAppointment(MakeAppointment command) {
-	  long id = service.insertResidentProfile(command);
-	  service.insertVaccine(id, command);
+  void makeAppointment(Appointment command) {
+    long id = service.insertResidentProfile(command);
+    service.insertVaccine(id, command);
   }
 
   //課堂上做
@@ -46,7 +46,8 @@ class ResidentController {
 
   //
 
-  @GetMapping
-  void getResidents() {
+  @GetMapping("/{id}")
+  void getAppointment(@PathVariable("id") long id) {
+    service.getAppointment(id);
   }
 }
