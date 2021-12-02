@@ -1,4 +1,4 @@
-package tw.com.fcb.mimosa.workshop.vaccine.ddd.repository;
+package tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository;
 
 import java.time.LocalDateTime;
 
@@ -12,16 +12,16 @@ import javax.persistence.Table;
 import lombok.Data;
 import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 
-@Table(name = "CHOOSE")
+@Table(name = "CANCEL")
 @Entity
 @Data
-public class ChooseEntity {
+public class CancelEntity {
   @Id
   @GeneratedValue
   Long id;
-  LocalDateTime chooseTime;
 
-  //預設enum式數字, 如果要用string排序要多加這個
+  LocalDateTime cancelTime;
   @Enumerated(EnumType.STRING)
   Vaccine vaccine;
+
 }

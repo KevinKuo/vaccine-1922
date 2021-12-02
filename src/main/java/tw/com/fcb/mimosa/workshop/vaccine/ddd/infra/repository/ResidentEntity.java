@@ -1,4 +1,4 @@
-package tw.com.fcb.mimosa.workshop.vaccine.ddd.repository;
+package tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository;
 
 import java.util.List;
 
@@ -25,9 +25,9 @@ public class ResidentEntity {
 
   @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL) //預設不會刪除外鍵的資料, orphan代表已無主鍵之資料
   @JoinColumn(name = "resident_id")
-  List<ChooseEntity> chooseEntity;
+  List<ChooseEntity> chooses;
 
   @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
   @JoinColumn(name = "resident_id")
-  List<CancelEntity> cancelEntity;
+  List<CancelEntity> cancels;
 }

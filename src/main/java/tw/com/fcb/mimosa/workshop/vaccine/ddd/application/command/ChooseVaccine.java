@@ -1,4 +1,4 @@
-package tw.com.fcb.mimosa.workshop.vaccine.ddd.web;
+package tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command;
 
 import java.util.List;
 
@@ -7,5 +7,6 @@ import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 
 @Data
 public class ChooseVaccine {
-  List<Vaccine> vaccines;
+	  long id;
+	  List<Vaccine> chooses;
 }

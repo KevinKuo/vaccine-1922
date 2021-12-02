@@ -1,22 +1,24 @@
-package tw.com.fcb.mimosa.workshop.vaccine.ddd.web;
+package tw.com.fcb.mimosa.workshop.vaccine.command.web;
 
 import java.time.LocalDateTime;
 
 import org.mapstruct.Mapper;
 
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.repository.CancelEntity;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.repository.ChooseEntity;
-import tw.com.fcb.mimosa.workshop.vaccine.ddd.repository.ResidentEntity;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository.CancelEntity;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository.ChooseEntity;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository.ResidentEntity;
 import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 
 @Mapper
 public interface ResidentMapper {
 
-  ResidentEntity toEntity(Appointment dto);
+  ResidentEntity toEntity(MakeAppointment dto);
 
   ResidentEntity toEntity(ReplaceResidentProfile dto);
 
-  Appointment toDto(ResidentEntity db);
+  MakeAppointment toDto(ResidentEntity db);
+
+  ResidentProfile fromEntity(ResidentEntity db);
 
   default ChooseEntity toChoose(Vaccine vaccine) {
     var entity = new ChooseEntity();
@@ -30,6 +32,10 @@ public interface ResidentMapper {
     entity.setCancelTime(LocalDateTime.now());
     entity.setVaccine(vaccine);
     return entity;
+  }
+
+  default Vaccine toChooseEntity(ChooseEntity db) {
+    return db.getVaccine();
   }
 
 }

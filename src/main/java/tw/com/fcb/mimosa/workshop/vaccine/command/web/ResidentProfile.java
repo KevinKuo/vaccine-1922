@@ -1,4 +1,4 @@
-package tw.com.fcb.mimosa.workshop.vaccine.ddd.web;
+package tw.com.fcb.mimosa.workshop.vaccine.command.web;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 @AllArgsConstructor
 @Data
 @Builder
-public class Appointment {
+public class ResidentProfile {
   String nhiNo;
   String phoneNo;
 
-  List<Vaccine> vaccines;
+  List<Vaccine> chooses;
 }
