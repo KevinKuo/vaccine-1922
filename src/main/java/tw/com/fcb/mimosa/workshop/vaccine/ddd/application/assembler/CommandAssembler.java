@@ -6,9 +6,13 @@ import tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command.MakeAppointmen
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.Appointment;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.Cancel;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.domain.Choose;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository.CancelEntity;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository.ChooseEntity;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository.ResidentEntity;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.CancelVaccineRequest;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.ChooseVaccineRequest;
 import tw.com.fcb.mimosa.workshop.vaccine.ddd.rest.MakeAppointmentRequest;
+import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 
 public interface CommandAssembler {
 
@@ -23,5 +27,15 @@ public interface CommandAssembler {
 	public Choose toDomain(ChooseVaccineRequest request);
 	
 	public Cancel toDomain(CancelVaccineRequest request);
+	
+	Appointment toResident(ResidentEntity data);
+	
+	Choose toChoose(ChooseEntity data);
+
+	Cancel toCancel(CancelEntity data);
+	
+	Choose toChoose(Vaccine data);
+
+	Cancel toCancel(Vaccine data);
 
 }

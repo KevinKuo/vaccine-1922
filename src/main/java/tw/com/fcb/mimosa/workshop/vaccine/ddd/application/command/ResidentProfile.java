@@ -1,4 +1,4 @@
-package tw.com.fcb.mimosa.workshop.vaccine.command.web;
+package tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command;
 
 import java.util.List;
 

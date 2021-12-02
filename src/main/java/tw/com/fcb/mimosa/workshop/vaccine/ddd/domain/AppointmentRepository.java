@@ -1,9 +1,9 @@
 package tw.com.fcb.mimosa.workshop.vaccine.ddd.domain;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import tw.com.fcb.mimosa.workshop.vaccine.ddd.infra.repository.ResidentEntity;
 
-import tw.com.fcb.mimosa.workshop.vaccine.crud.repository.CrudResidentEntity;
-
-public interface AppointmentRepository extends JpaRepository<CrudResidentEntity, Long>{
+public interface AppointmentRepository{
 	long save(Appointment domain);
+	
+	public ResidentEntity findById(long id);
 }

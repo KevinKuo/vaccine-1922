@@ -14,5 +14,5 @@ import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 @Builder
 public class CancelVaccine {
 	  long id;	
-	  List<Vaccine> chooses;
+	  List<Vaccine> cancels;
 }

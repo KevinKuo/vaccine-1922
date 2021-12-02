@@ -23,21 +23,30 @@ public class ApplicationService {
 		  	return repository.save(assembler.toDomain(command));
 	  }
 	  
-	  public long chooseVaccine(ChooseVaccine command) {
+	  public void chooseVaccine(ChooseVaccine command) {
 		  
-		  var domain = repository.findById(command.getId());
-		    var appends = command.getChooses().stream().filter(choose -> {
+		  //Appointment
+		  var domain = assembler.toResident(repository.findById(command.getId()));
+		    var appends = command.getChooses().stream()
+		    		.filter(choose -> {
 		        return domain.getChooses().stream().map(Choose::getVaccine).noneMatch(choose::equals);
 		      }).map(assembler::toChoose)
 		          .collect(Collectors.toList());
-		    
-		    domain.getChooses().addAll(appends);
+		    domain.setChooses(appends);
 		    repository.save(domain);
-		  	return repository.save(assembler.toDomain(command));
 	  }
 	  
-	  public long cancelVaccine(CancelVaccine command) {
-		  	return repository.save(assembler.toDomain(command));
+	  public void cancelVaccine(CancelVaccine command) {
+		    var domain = assembler.toResident(repository.findById(command.getId()));
+		    var drop = domain.getChooses().stream()
+		        .filter(choose -> 
+		        command.getCancels().contains(choose.getVaccine())).collect(Collectors.toList());
+		    domain.getChooses().removeAll(drop);
+		    
+		    var cancel = command.getCancels().stream().map(assembler::toCancel).collect(Collectors.toList());
+		    domain.getCancels().addAll(cancel);
+		    
+		    repository.save(domain);
 	  }
 
 }

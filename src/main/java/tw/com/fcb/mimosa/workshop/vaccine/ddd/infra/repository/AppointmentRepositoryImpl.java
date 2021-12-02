@@ -23,5 +23,5 @@ public class AppointmentRepositoryImpl implements AppointmentRepository{
 	public ResidentEntity findById(long id) {
 		// TODO Auto-generated method stub
 		return jpaRepository.findById(id).orElseThrow();
-	}	
+	}
 }
