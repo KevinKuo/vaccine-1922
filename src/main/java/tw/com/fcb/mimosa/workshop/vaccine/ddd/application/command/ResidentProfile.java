@@ -1,4 +1,4 @@
-package tw.com.fcb.mimosa.workshop.vaccine.ddd.application.command;
+package tw.com.fcb.mimosa.workshop.vaccine.command.web;
 
 import java.util.List;
 
@@ -12,7 +12,9 @@ import tw.com.fcb.mimosa.workshop.vaccine.sharedkernel.Vaccine;
 @AllArgsConstructor
 @Data
 @Builder
-public class CancelVaccine {
-	  long id;	
-	  List<Vaccine> chooses;
+public class ResidentProfile {
+  String nhiNo;
+  String phoneNo;
+
+  List<Vaccine> chooses;
 }
