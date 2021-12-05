@@ -19,9 +19,11 @@ public class AppointmentRepositoryImpl implements AppointmentRepository{
 		// TODO Auto-generated method stub
 		return jpaRepository.save(assembler.toEntity(domain)).getId();
 	}	
-
-	public ResidentEntity findById(long id) {
+	
+	@Override
+	public Appointment findById(long id) {
 		// TODO Auto-generated method stub
-		return jpaRepository.findById(id).orElseThrow();
+		var data = jpaRepository.findById(id).orElseThrow();
+		return assembler.toResident(data);
 	}
 }

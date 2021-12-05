@@ -20,4 +20,10 @@ public interface ResidentAssembler {
 
 	CancelEntity toCancelVaccineEntity(CancelVaccine domain);
 
+	Appointment toResident(ResidentEntity data);
+	
+	Choose toChoose(ChooseEntity data);
+
+	Cancel toCancel(CancelEntity data);
+	
 }

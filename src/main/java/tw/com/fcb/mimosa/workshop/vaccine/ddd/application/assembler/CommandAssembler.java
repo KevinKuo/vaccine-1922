@@ -28,12 +28,6 @@ public interface CommandAssembler {
 	
 	public Cancel toDomain(CancelVaccineRequest request);
 	
-	Appointment toResident(ResidentEntity data);
-	
-	Choose toChoose(ChooseEntity data);
-
-	Cancel toCancel(CancelEntity data);
-	
 	Choose toChoose(Vaccine data);
 
 	Cancel toCancel(Vaccine data);

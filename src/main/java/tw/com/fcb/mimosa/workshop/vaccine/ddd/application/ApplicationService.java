@@ -26,7 +26,7 @@ public class ApplicationService {
 	  public void chooseVaccine(ChooseVaccine command) {
 		  
 		  //Appointment
-		  var domain = assembler.toResident(repository.findById(command.getId()));
+		  var domain = repository.findById(command.getId());
 		    var appends = command.getChooses().stream()
 		    		.filter(choose -> {
 		        return domain.getChooses().stream().map(Choose::getVaccine).noneMatch(choose::equals);
@@ -37,7 +37,7 @@ public class ApplicationService {
 	  }
 	  
 	  public void cancelVaccine(CancelVaccine command) {
-		    var domain = assembler.toResident(repository.findById(command.getId()));
+		    var domain = repository.findById(command.getId());
 		    var drop = domain.getChooses().stream()
 		        .filter(choose -> 
 		        command.getCancels().contains(choose.getVaccine())).collect(Collectors.toList());
